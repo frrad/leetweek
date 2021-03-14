@@ -13,12 +13,10 @@ class Solution:
         return sum([float(x[1]) / float(x[2]) for x in h]) / float(len(h))
 
     def entry(self, x, y):
-        return (-self.benefit(x, y), x, y)
-
-    def benefit(self, x, y):
         current = float(x) / float(y)
         if_add = float(x + 1) / float(y + 1)
-        return if_add - current
+        benefit = if_add - current
+        return (-benefit, x, y)
 
 
 sol = Solution()
