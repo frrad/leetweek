@@ -31,17 +31,14 @@ class Solution:
         if not works(b):
             return -1
 
-        while b - a > 10:
+        while b - a > 1:
             c = (b + a) // 2
             if works(c):
                 b = c
             else:
                 a = c
 
-        for i in range(a, b + 1):
-            if works(i):
-                return i
-
+        return b
 
 sol = Solution()
 print(sol.minSpeedOnTime(dist=[1, 3, 2], hour=6))
