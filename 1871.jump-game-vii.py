@@ -27,7 +27,7 @@ def reach(i: int, minJump: int, maxJump: int):
         return True
 
     for x in range(maxJump, minJump - 1, -1):
-        if reach(i - x, minJump, maxJump):
+        if reach(i - x, minJump, min(i - x, maxJump)):
             memo[i] = True
             return True
 
@@ -49,3 +49,10 @@ sol = Solution()
 print(sol.canReach(s="011010", minJump=2, maxJump=3))
 print(sol.canReach(s="01101110", minJump=2, maxJump=3))
 print(sol.canReach(s="0000000000", minJump=8, maxJump=8))
+print(
+    sol.canReach(
+        s="0111111111111111111111111111111101111101111111111111111110",
+        minJump=5,
+        maxJump=26,
+    )
+)
