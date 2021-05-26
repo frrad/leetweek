@@ -4,9 +4,8 @@ from typing import Dict
 memo: Dict[int, bool] = dict()
 bin_str: str = ""
 
-
+# this implementation is too slow, consider sliding window approach
 def reach(i: int, minJump: int, maxJump: int):
-
     if i in memo:
         return memo[i]
 
