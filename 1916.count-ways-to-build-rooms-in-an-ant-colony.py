@@ -2,35 +2,19 @@ from typing import List
 import functools
 
 
-def descendents(ix):
+def orders_descendents(ix):
     if ix not in children:
-        return 1
+        return (1, 1)
 
-    if ix in desc:
-        return desc[ix]
+    if ix in memo:
+        return memo[ix]
 
-    down = [descendents(chi) for chi in children[ix]]
+    kids = [orders_descendents(x) for x in children[ix]]
 
-    ans = 1 + sum(down)
+    (kid_order, kid_desc) = functools.reduce(comb, kids)
+    memo[ix] = (kid_order, kid_desc + 1)
 
-    desc[ix] = ans
-    return ans
-
-
-def orders(ix):
-    if ix not in children:
-        return 1
-
-    if len(children[ix]) == 1:
-        order_memo[ix] = orders(children[ix][0])
-        return order_memo[ix]
-
-    kids = [(orders(x), descendents(x)) for x in children[ix]]
-
-    this_ans = functools.reduce(comb, kids)
-    order_memo[ix] = this_ans[0]
-
-    return this_ans[0]
+    return memo[ix]
 
 
 def comb(a, b):
@@ -41,8 +25,6 @@ def comb(a, b):
 
     return ans
 
-
-choose_memo = dict()
 
 # i'm lazy..
 # https://github.com/scipy/scipy/blob/701ffcc8a6f04509d115aac5e5681c538b5265a2/scipy/special/_comb.pyx#L5
@@ -62,9 +44,6 @@ def choose(N, k):
     return numerator // denominator
 
 
-children = dict()
-
-
 def build_children(prevRoom):
 
     for i, parent in enumerate(prevRoom):
@@ -77,14 +56,13 @@ def build_children(prevRoom):
 
 class Solution:
     def waysToBuildRooms(self, prevRoom: List[int]) -> int:
-        global children, order_memo, desc
+        global children, memo
         children = dict()
-        order_memo = dict()
-        desc = dict()
+        memo = dict()
 
         build_children(prevRoom)
 
-        return orders(0) % (10 ** 9 + 7)
+        return orders_descendents(0)[0] % (10 ** 9 + 7)
 
 
 sol = Solution()
