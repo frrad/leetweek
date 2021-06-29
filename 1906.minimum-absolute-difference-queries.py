@@ -9,20 +9,22 @@ def solve(nums, i, z):
     for j in range(i, z + 1):
         adding = nums[j]
 
-        heh.add(adding)
-
-        a = heh.bisect_left(adding) - 1
-        b = heh.bisect_right(adding)
+        a = heh.bisect_left(adding)
+        if 0 <= a + 1 <= len(heh) - 1:
+            right = heh[a + 1]
+            if right == adding:
+                continue
+            else:
+                test = abs(adding - heh[a])
+                if test < best:
+                    best = test
 
         if 0 <= a <= len(heh) - 1:
             test = abs(adding - heh[a])
             if test < best:
                 best = test
 
-        if 0 <= b <= len(heh) - 1:
-            test = abs(adding - heh[b])
-            if test < best:
-                best = test
+        heh.add(adding)
 
     return -1 if best == float("inf") else best
 
